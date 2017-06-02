@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +26,8 @@ public class MainActivity extends Activity {
 
     //View yang akan di gunakan
     private WebView view;
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +52,21 @@ public class MainActivity extends Activity {
             Toast.makeText(this, "No Connection", Toast.LENGTH_SHORT).show();
 
         } else {
-
             WebSettings settings = view.getSettings();
 
             //Set Local Storage enable
             settings.setDomStorageEnabled(true);
 
-            //Can Running javascript
-            view.getSettings().setJavaScriptEnabled(true);
-            view.setWebViewClient(new MyBrowser());
-            view.loadUrl("http://google.com"); //Site yang akan di tampilkan
-            view.setWebChromeClient(new WebChromeClient()); // adding js alert support
+            try {
+                //Can Running javascript
+                view.getSettings().setJavaScriptEnabled(true);
+                view.setWebViewClient(new MyBrowser());
+                view.loadUrl("http://jogjaorganik.com/livezilla/mobile/index.php"); //Site yang akan di tampilkan
+                view.setWebChromeClient(new WebChromeClient()); // adding js alert support
 
+            } catch (Exception e){
+                Log.d(TAG, "onCreate: Kesalahan Saat menjalankan webview");
+            }
         }
     }
 
@@ -102,6 +108,5 @@ public class MainActivity extends Activity {
         // maka akan keluar dari activity
         return super.onKeyDown(keyCode, event);
     }
-
 
 }
